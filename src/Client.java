@@ -15,11 +15,11 @@ public class Client {
 
         InetSocketAddress socketAddress = new InetSocketAddress("127.0.0.1", 12345);
         final SocketChannel socketChannel = SocketChannel.open();
-        socketChannel.connect(socketAddress);
 
-        try (
-                final Scanner scanner = new Scanner(System.in)
+        try (socketChannel;
+             final Scanner scanner = new Scanner(System.in)
         ) {
+            socketChannel.connect(socketAddress);
             final ByteBuffer inputBuffer = ByteBuffer.allocate(2 << 10);
             String msg;
             while (true) {
@@ -44,8 +44,6 @@ public class Client {
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
-        } finally {
-            socketChannel.close();
         }
     }
 }
